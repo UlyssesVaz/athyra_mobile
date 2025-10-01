@@ -1,15 +1,16 @@
 import { Colors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    useColorScheme,
-    View
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CoachScreen() {
   const colorScheme = useColorScheme();
@@ -41,6 +42,7 @@ export default function CoachScreen() {
   const handleCameraPress = () => {
     // Will implement camera in Step 6
     console.log('Camera button pressed');
+    router.push('/camera');
   };
 
   return (

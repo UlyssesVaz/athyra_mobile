@@ -35,7 +35,12 @@ function RootNavigation() {
         <Stack.Screen name="(tabs)" />
         
         {/* Your existing screen for the camera modal */}
-        <Stack.Screen name="camera" options={{ presentation: 'modal' }} />
+        <Stack.Screen 
+          name="camera" 
+          options={{ 
+            presentation: 'modal',
+            animation: 'slide_from_bottom'
+            }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

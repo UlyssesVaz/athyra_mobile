@@ -41,3 +41,9 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Python / Backend Specific
+zbackend/venv/
+zbackend/.env
+zbackend/__pycache__/
+zbackend/fitness.db

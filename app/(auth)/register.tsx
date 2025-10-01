@@ -2,9 +2,18 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useAuth } from '@/contexts/AuthContext';
+import { Picker } from '@react-native-picker/picker';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    View, // Make sure View is imported
+} from 'react-native';
 
 // This should match your backend URL
 const API_BASE = 'https://athyra.onrender.com';
@@ -13,7 +22,7 @@ export default function RegisterScreen() {
   const { signIn } = useAuth();
   const [username, setUsername] = useState('');
   const [age, setAge] = useState('');
-  const [sex, setSex] = useState(''); // Simple text input for now
+  const [sex, setSex] = useState(''); // Default to empty
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [goal, setGoal] = useState('maintain'); // Default goal
@@ -23,7 +32,8 @@ export default function RegisterScreen() {
   const colors = Colors[colorScheme];
   
   const handleRegister = async () => {
-    if (!username.trim() || !age || !sex.trim() || !height || !weight) {
+    // Updated validation to check for picker values
+    if (!username.trim() || !age || !sex || !height || !weight || !goal) {
       Alert.alert('Error', 'Please fill out all fields.');
       return;
     }
@@ -35,7 +45,7 @@ export default function RegisterScreen() {
         body: JSON.stringify({
           username: username.toLowerCase().trim(),
           age: parseInt(age, 10),
-          sex: sex.toLowerCase().trim(),
+          sex: sex, // Already lowercased from picker value
           height_cm: parseInt(height, 10),
           weight_kg: parseInt(weight, 10),
           goal: goal,
@@ -60,16 +70,42 @@ export default function RegisterScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <ScrollView contentContainerStyle={{ alignItems: 'center', width: '100%' }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center', width: '100%' }}>
         <ThemedText type="title" style={styles.title}>Create Account</ThemedText>
         
         <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Username" placeholderTextColor={colors.textSecondary} value={username} onChangeText={setUsername} autoCapitalize="none" />
         <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Age" placeholderTextColor={colors.textSecondary} value={age} onChangeText={setAge} keyboardType="numeric" />
-        <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Sex (male/female)" placeholderTextColor={colors.textSecondary} value={sex} onChangeText={setSex} autoCapitalize="none" />
+        
+        {/* MERGED: Sex Picker */}
+        <View style={[styles.pickerContainer, { backgroundColor: colors.card }]}>
+          <Picker
+            selectedValue={sex}
+            onValueChange={(itemValue) => setSex(itemValue)}
+            style={{ color: colors.text }}
+            dropdownIconColor={colors.text}
+          >
+            <Picker.Item label="Select Sex..." value="" enabled={false} />
+            <Picker.Item label="Male" value="male" />
+            <Picker.Item label="Female" value="female" />
+          </Picker>
+        </View>
+
         <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Height (cm)" placeholderTextColor={colors.textSecondary} value={height} onChangeText={setHeight} keyboardType="numeric" />
         <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Weight (kg)" placeholderTextColor={colors.textSecondary} value={weight} onChangeText={setWeight} keyboardType="numeric" />
-        {/* We can replace the Goal input with a picker component later */}
-        <TextInput style={[styles.input, { backgroundColor: colors.card, color: colors.text }]} placeholder="Goal (lose_weight, gain_muscle, maintain)" placeholderTextColor={colors.textSecondary} value={goal} onChangeText={setGoal} autoCapitalize="none" />
+        
+        {/* MERGED: Goal Picker */}
+        <View style={[styles.pickerContainer, { backgroundColor: colors.card }]}>
+          <Picker
+            selectedValue={goal}
+            onValueChange={(itemValue) => setGoal(itemValue)}
+            style={{ color: colors.text }}
+            dropdownIconColor={colors.text}
+          >
+            <Picker.Item label="Lose Weight" value="lose_weight" />
+            <Picker.Item label="Gain Muscle" value="gain_muscle" />
+            <Picker.Item label="Maintain" value="maintain" />
+          </Picker>
+        </View>
 
         <TouchableOpacity 
           style={[styles.button, { backgroundColor: colors.tint }]} 
@@ -90,7 +126,32 @@ export default function RegisterScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
   title: { marginBottom: 20, marginTop: 40, },
-  input: { width: '100%', padding: 15, borderRadius: 12, fontSize: 16, marginBottom: 15, borderWidth: 1, borderColor: '#444' },
-  button: { width: '100%', paddingVertical: 15, borderRadius: 12, alignItems: 'center' },
+  input: { 
+    width: '100%', 
+    height: 50, // Added height for consistency
+    paddingHorizontal: 15,
+    borderRadius: 12, 
+    fontSize: 16, 
+    marginBottom: 15, 
+    borderWidth: 1, 
+    borderColor: '#444' 
+  },
+  // ADDED: Style for the Picker container to match TextInputs
+  pickerContainer: {
+    width: '100%',
+    height: 50,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#444',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  button: { 
+    width: '100%', 
+    paddingVertical: 15, 
+    borderRadius: 12, 
+    alignItems: 'center',
+    marginTop: 10, // Added margin
+  },
   link: { marginTop: 20, marginBottom: 40 },
 });

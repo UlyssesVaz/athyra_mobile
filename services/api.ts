@@ -1,5 +1,6 @@
 // API configuration
-const API_BASE = 'https://athyra.onrender.com';
+//const API_BASE = 'https://athyra.onrender.com';
+const API_BASE = 'http://192.168.56.1:8000'; 
 // For local development, use: 'http://localhost:8000'
 
 interface ApiResponse<T = any> {

@@ -1,11 +1,11 @@
+import { useThemeColor } from '@/hooks/use-theme-color';
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
-import { useThemeColor } from '@/hooks/use-theme-color';
-
+// ADDED 'button' to the type definition
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'button';
 };
 
 export function ThemedText({
@@ -16,16 +16,18 @@ export function ThemedText({
   ...rest
 }: ThemedTextProps) {
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
+  
   return (
     <Text
       style={[
+        // Note: The new 'button' style hardcodes a white color, so we apply the dynamic color first.
         { color },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
+        type === 'button' ? styles.button : undefined, // ADDED rendering logic for the button style
         style,
       ]}
       {...rest}
@@ -56,5 +58,11 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontSize: 16,
     color: '#0a7ea4',
+  },
+  // ADDED the new button style
+  button: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff', // Buttons will have white text by default
   },
 });
