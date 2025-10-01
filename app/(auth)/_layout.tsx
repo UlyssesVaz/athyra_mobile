@@ -1,24 +1,19 @@
-// Add these imports
 import { useAuth } from '@/contexts/AuthContext';
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import React from 'react';
 
-// ... keep existing imports
-
-export default function TabLayout() {
+export default function AuthLayout() {
   const { user } = useAuth();
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
 
-  // If the user is not signed in, redirect to the login page.
-  if (!user) {
-    return <Redirect href="/(auth)/login" />;
+  if (user) {
+    // Redirect to the main app if the user is already signed in
+    return <Redirect href="/(tabs)/coach" />;
   }
 
   return (
-    <Tabs
-     // ... rest of the file is unchanged
-     // ...
-    </Tabs>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="login" />
+      <Stack.Screen name="register" />
+    </Stack>
   );
 }

@@ -19,16 +19,15 @@ export default function PlannerScreen() {
     <TouchableOpacity 
       style={[
         styles.featureCard, 
-        { backgroundColor: colors.card, opacity: available ? 1 : 0.6 }
+        { 
+          backgroundColor: colors.card,
+          opacity: available ? 1 : 0.6
+        }
       ]}
       disabled={!available}
     >
       <View style={[styles.featureIcon, { backgroundColor: colors.progressBg }]}>
-        <Ionicons 
-          name={icon as any} 
-          size={32} 
-          color={available ? colors.tint : colors.textSecondary} 
-        />
+        <Ionicons name={icon} size={32} color={available ? colors.tint : colors.textSecondary} />
       </View>
       <View style={styles.featureContent}>
         <Text style={[styles.featureTitle, { color: colors.text }]}>{title}</Text>
@@ -39,7 +38,9 @@ export default function PlannerScreen() {
       <View 
         style={[
           styles.featureStatus, 
-          { backgroundColor: available ? 'rgba(74, 222, 128, 0.2)' : 'rgba(156, 163, 175, 0.2)' }
+          { 
+            backgroundColor: available ? 'rgba(74, 222, 128, 0.2)' : 'rgba(156, 163, 175, 0.2)' 
+          }
         ]}
       >
         <Text 
@@ -73,18 +74,21 @@ export default function PlannerScreen() {
             description="Generate a personalized weekly meal plan based on your goals and budget."
             available={true}
           />
+          
           <FeatureCard
             icon="barbell"
             title="Workout Scheduler"
             description="Plan your weekly workouts and track your progress against your goals."
             available={false}
           />
+          
           <FeatureCard
             icon="cart"
             title="Smart Grocery List"
             description="Auto-generate shopping lists from your meal plans with budget tracking."
             available={false}
           />
+          
           <FeatureCard
             icon="nutrition"
             title="Recipe Library"
@@ -113,11 +117,25 @@ export default function PlannerScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  header: { padding: 20, paddingTop: 10 },
-  title: { fontSize: 28, fontWeight: '700', marginBottom: 4 },
-  subtitle: { fontSize: 14 },
-  featuresContainer: { paddingHorizontal: 20, gap: 16 },
+  container: {
+    flex: 1,
+  },
+  header: {
+    padding: 20,
+    paddingTop: 10,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 14,
+  },
+  featuresContainer: {
+    paddingHorizontal: 20,
+    gap: 16,
+  },
   featureCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -138,25 +156,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
   },
-  featureContent: { flex: 1 },
-  featureTitle: { fontSize: 16, fontWeight: '600', marginBottom: 4 },
-  featureDescription: { fontSize: 13, lineHeight: 18 },
+  featureContent: {
+    flex: 1,
+  },
+  featureTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  featureDescription: {
+    fontSize: 13,
+    lineHeight: 18,
+  },
   featureStatus: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
   },
-  featureStatusText: { fontSize: 12, fontWeight: '600' },
-  quickActions: { padding: 20 },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12 },
-  actionGrid: { flexDirection: 'row', gap: 12 },
+  featureStatusText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  quickActions: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+  actionGrid: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   actionButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
+    paddingVertical: 16,
     borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  actionText: { marginLeft: 8, fontSize: 14, fontWeight: '500' },
+  actionText: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: '500',
+  },
 });

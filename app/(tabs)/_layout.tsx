@@ -1,12 +1,31 @@
 import { Colors } from '@/constants/theme';
+import { useAuth } from '@/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { Redirect, Tabs } from 'expo-router';
+import React from 'react';
+import { ActivityIndicator, useColorScheme, View } from 'react-native';
 
 export default function TabLayout() {
+  const { user, isLoading } = useAuth(); // Also get the isLoading state
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
 
+  // This is the new, more robust check.
+  // While we are checking for a user, show a loading spinner.
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  // After we're done loading, if there's still no user, redirect to login.
+  if (!user) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
+  // If we're done loading and there IS a user, show the tabs.
   return (
     <Tabs
       screenOptions={{
